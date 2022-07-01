@@ -11,28 +11,28 @@ app.use(express.json())
 
 
 const { MongoClient, ServerApiVersion } = require('mongodb');
-const uri = "mongodb+srv://todoList:CTfnBJy5wg8r2lUb@cluster0.51m8jdt.mongodb.net/?retryWrites=true&w=majority";
+const uri = "mongodb+srv://DB_USER:DB_PASS@cluster0.51m8jdt.mongodb.net/?retryWrites=true&w=majority";
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
 
-async function run(){
- try{
-    await client.connect();
-    const collection = client.db("toDoList").collection("dailyTask");
-    app.post('/list', async(req, res)=>{
-        const query = req.body;
-        console.log(query);
-        const result = await collection.insertOne(query);
-        res.send(result);
-    })
-    app.get('/list', async(req, res)=>{
-        const query = {};
-        const result = collection.find(query);
-        const services = await result.toArray();
-        res.send(services);
-    })
- }finally{
+async function run() {
+    try {
+        await client.connect();
+        const collection = client.db("toDoList").collection("dailyTask");
+        app.post('/list', async (req, res) => {
+            const query = req.body;
+            console.log(query);
+            const result = await collection.insertOne(query);
+            res.send(result);
+        })
+        app.get('/list', async (req, res) => {
+            const query = {};
+            const result = collection.find(query);
+            const services = await result.toArray();
+            res.send(services);
+        })
+    } finally {
 
- }
+    }
 }
 run().catch(console.dir)
 
@@ -45,5 +45,5 @@ app.get('/', (req, res) => {
 })
 
 app.listen(port, () => {
-    console.log(`Example app listening on port ${ port }`)
+    console.log(`Example app listening on port ${port}`)
 })
